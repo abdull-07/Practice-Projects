@@ -1,3 +1,11 @@
+//   ! Back to Top  
+
+document.querySelector('.top').addEventListener('click', function () {
+    const homeSection = document.getElementById('home');
+
+    homeSection.scrollIntoView({behavior: 'smooth'})
+})
+
 // * Make navbar stacky
 
 const nav = document.querySelector('.nav')
@@ -63,3 +71,14 @@ function typeWords(element, words) {
 // Call the function for both typing elements
 typeWords(typingElement, words);
 typeWords(typingElement2, words);
+
+// !Mobile Navbar
+/* Open when someone clicks on the span element */
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+  }
+  
+  /* Close when someone clicks on the "x" symbol inside the overlay */
+  function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+  }

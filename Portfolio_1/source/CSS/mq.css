@@ -1,1 +1,117 @@
-/* ! this file include the media media queryes */
+/* Extra Large Devices (Desktops) */
+@media (min-width: 1200px) {
+    /* Styles here */
+}
+
+/* Large Devices (Laptops) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .serv .serv-cont .card {
+        /* width: 50vw !important; */
+        margin: 10px auto;
+    }
+
+    .max-width {
+        padding: 0 50px !important;
+    }
+}
+
+/* Medium Devices (Tablets) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .about .about-cont .left {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 60px;
+    }
+
+    .about .about-cont .right {
+        flex: 100%;
+    }
+}
+
+/* Small Devices (Tablets and Small Phones) */
+@media (max-width: 767px) {
+    .about .about-cont .left {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 60px;
+    }
+
+    .about .about-cont .right {
+        flex: 100%;
+    }
+
+    .serv-cont,
+    .skill-cont,
+    .cont-cont {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .serv .serv-cont .card {
+        width: 50vw !important;
+        margin: 10px auto;
+    }
+
+    .skill .skill-cont .column {
+        width: 100% !important;
+        padding-bottom: 20px;
+    }
+    
+    .team .carousel .card .box {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .cont .cont-cont .column {
+        width: 100% !important;
+        padding-bottom: 20px;   
+    }
+
+    .nav .menu{
+        display: none;
+    }
+
+    .menu2{
+        display: block !important;
+    }
+}   
+
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+    .about .about-cont .left {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 60px;
+    }
+
+    .about .about-cont .right {
+        flex: 100%;
+    }
+
+    .about .about-cont .left img {
+        height: 150px !important;
+        width: 150px !important;
+        object-fit: cover;
+        /* border-radius: 1000px; */
+    }
+
+    .serv-cont,
+    .skill-cont,
+    .cont-cont {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px
+    }
+
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
