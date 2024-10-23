@@ -1,13 +1,14 @@
 /* * Import the files */
 @import url(./mq.css);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Romanesco&display=swap');    
 
 
 /* todo: Universal Stlying */
-*{
+* {
     padding: 0;
     margin: 0;
     text-decoration: none;
-    color: var(--color);
+    /* color: var(--color);  */
     list-style: none;
 }
 
@@ -17,49 +18,60 @@
     --font: white;
     --background: crimson;
     --background-color: rgb(160, 14, 43);
+    /* *colors for social icons */
+    --color-codepen: #000;
+    --color-github: #4284c0;
+    --color-twitter: #2b97f1;
+    --color-dribbble: #ef5a92;
+    --color-instagram: #527fa6;
+    --color-linkedin: #006599;
+    --color-facebook: #3b5a9b;
 }
 
-.cursor{
-    cursor: pointer; /* make the pointer cursor */
+.cursor {
+    cursor: pointer;
+    /* make the pointer cursor */
 }
 
-.max-width{
+.max-width {
     max-width: 1300px;
     padding: 0px 80px;
     margin: auto;
 }
 
-.flex{
+.flex {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-section{
-    padding: 100px 0px;
+section {
+    padding: 100px 0;
 }
 
-section .title{
+section .title {
     position: relative;
     text-align: center;
     font-size: 40px;
     font-weight: 500;
     margin-bottom: 60px;
     padding-bottom: 20px;
+    font-family: "Romanesco", cursive;
 }
 
-section .title::before{
+section .title::before {
+    content: "";
     position: absolute;
-    bottom: -8px;
+    bottom: 0px;
     left: 50%;
-    font-size: 20px;
-    color: var(--background);
-    padding: 0px 5px;
-    background-color: var(--font);
+    width: 180px;
+    height: 5px;
+    background: var(--color2);
     transform: translateX(-50%);
+    border-radius: 10px;
 }
 
-section .title::after{
+section .title::after {
     position: absolute;
     bottom: -8px;
     left: 50%;
@@ -70,11 +82,20 @@ section .title::after{
     transform: translateX(-50%);
 }
 
-.about, .ser, .skill, .team, .cont{
-    /* font-family: 'Courier New', Courier, monospace; */
+.about,
+.ser,
+.skill,
+.team,
+.cont,
+footer {
+    font-family: "Roboto", sans-serif;
 }
 
-.about-cont, .ser-cont, .skill-cont, .team-cont, .cont-cont{
+.about-cont,
+.serv-cont,
+.skill-cont,
+.team-cont,
+.cont-cont {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -86,7 +107,7 @@ section .title::after{
 
 /* ! Back to top button*/
 
-.top{
+.top {
     position: fixed;
     height: 50px;
     width: 50px;
@@ -101,58 +122,60 @@ section .title::after{
     transition: all 0.5s ease;
 }
 
-.top:hover{
+.top:hover {
     font-size: 30px;
     filter: brightness(50%);
     bottom: 40px;
     transition: all 0.5s ease;
 }
 
-.top i{
-    /* rotate: 270deg; */
+.back-to-top.show {
+    bottom: 30px;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 
 
 /* ! Navbar */
 
-.nav{
+.nav {
     position: fixed;
     width: 100vw;
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
     z-index: 1000;
     padding: 20px 0px;
     transition: all 0.5s cubic-bezier(1, 0.66, 1, 1);
 }
 
-.nav.sticky{
+.nav.sticky {
     background-color: var(--background-color);
 }
 
-.nav .flex{
+.nav .flex {
     justify-content: space-around;
 }
 
-.nav .logo a{
+.nav .logo a {
     font-size: 40px;
     font-weight: 600;
     color: var(--font);
 }
 
-.nav .logo a span{
+.nav .logo a span {
     color: var(--background);
     transition: all 0.5s ease;
 }
 
-.nav.sticky .logo a span{
+.nav.sticky .logo a span {
     color: var(--font) !important;
 }
 
-.nav .menu li{
-    /* display: inline-block; */
+.nav .menu li {
+    display: inline-block;
 }
 
-.nav .menu li a{
+.nav .menu li a {
     display: block;
     color: var(--font);
     font-size: 18px;
@@ -161,55 +184,55 @@ section .title::after{
     transition: color 0.5s ease;
 }
 
-.nav .menu li a:hover{
+.nav .menu li a:hover {
     color: var(--color2);
-    text-decoration:line-through;
+    text-decoration: line-through;
 }
 
-.menu{
+.menu {
     color: var(--font);
     font-size: 23px;
 }
 
 /* ! Home section */
 
-.home{
+.home {
     display: flex;
-    background: url("../Images/");
+    background: url("../images/banner.jpg") no-repeat center;
     height: 100vh;
-    color: var(--font);
+    color: #fff;
     min-height: 500px;
     background-size: cover;
     background-attachment: fixed;
-    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-family: "Romanesco", cursive;
 }
 
-.home .max-width{
-    width: 10vw;
+.home .max-width {
+    width: 100vw;
     display: flex;
 }
 
-.home .home-cont .text1{
-    font-size: 30px;
+.home .home-cont .text1 {
+    font-size: 3em;
 }
 
-.home .home-cont .text2{
-    font-size: 80px;
+.home .home-cont .text2 {
+    font-size: 8em;
     font-weight: 600;
     margin-left: -30px;
 }
 
-.home .home-cont .text3{
+.home .home-cont .text3 {
     font-size: 45px;
     margin: 5px 0px;
 }
 
-.home .home-cont .text3 span{
+.home .home-cont .text3 span {
     color: var(--background);
     font-weight: 500;
 }
 
-.home .home-cont a{
+.home .home-cont a {
     display: inline-block;
     background: var(--background);
     color: var(--font);
@@ -222,7 +245,414 @@ section .title::after{
     transition: all 0.5s ease;
 }
 
-.home .home-cont a:hover{
+.home .home-cont a:hover {
     color: var(--background-color);
     background: none;
+}
+
+/* ! about section */
+
+.about .title::after {
+    content: "who i am";
+}
+
+.about .about-cont .left {
+    width: 45%;
+}
+
+.about .about-cont .left img {
+    height: 400px;
+    width: 400px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.about .about-cont .right {
+    width: 55%;
+}
+
+.about .about-cont .right .text {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.about .about-cont .right .text span {
+    color: var(--background);
+}
+
+.about .about-cont .right p {
+    text-align: justify;
+}
+
+.about .about-cont .right a {
+    display: inline-block;
+    background: var(--background-color);
+    color: var(--font);
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 30px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--background);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.about .about-cont .right a:hover {
+    color: var(--background);
+    background: none;
+}
+
+/* ! Services & Team Section */
+.serv,
+.team {
+    color: var(--font);
+    background: var(--color2);
+}
+
+.serv .title::before,
+.team .title::before {
+    background: var(--font);
+}
+
+/* ! Services Section */
+
+.serv .title::after {
+    background: var(--color2);
+    content: "What I Provide";
+}
+
+.serv .serv-cont .card {
+    width: calc(33% - 60px);
+    background: #222;
+    text-align: center;
+    border-radius: 6px;
+    padding: 50px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.serv .serv-cont .card:hover {
+    background: var(--background);
+}
+
+.serv .serv-cont .card .box {
+    transition: all 0.3s ease;
+}
+
+.serv .serv-cont .card:hover .box {
+    transform: scale(1.05);
+}
+
+.serv .serv-cont .card i {
+    font-size: 50px;
+    color: var(--background);
+    transition: color 0.3s ease;
+}
+
+.serv .serv-cont .card:hover i {
+    color: #fff;
+}
+
+.serv .serv-cont .card .text {
+    font-size: 25px;
+    font-weight: 500;
+    margin: 10px 0 7px 0;
+}
+
+/* ! Skill Section */
+
+.skill .title::after {
+    content: "What I Know";
+}
+
+.skill .skill-cont .column {
+    width: calc(50% - 30px);
+}
+
+.skill .skill-cont .left .text {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.skill .skill-cont .left p {
+    text-align: justify;
+}
+
+.skill .skill-cont .left a {
+    display: inline-block;
+    background: var(--background);
+    color: var(--font);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--background);
+    transition: all 0.3s ease;
+}
+
+.skill .skill-cont.left a:hover {
+    color: var(--background);
+    background: none;
+}
+
+.skill .skill-cont .right .bars {
+    margin-bottom: 15px;
+}
+
+.skill .skill-cont .right .info {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.skill .skill-cont .right span {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.skill .skill-cont .right .line {
+    height: 5px;
+    width: 100%;
+    background: lightgrey;
+    position: relative;
+}
+
+.skill .skill-cont .right .line::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: var(--background);
+}
+
+.skill-cont .right .html::before {
+    width: 90%;
+}
+
+.skill-cont .right .css::before {
+    width: 60%;
+}
+
+.skill-cont .right .js::before {
+    width: 80%;
+}
+
+.skill-cont .right .react::before {
+    width: 50%;
+}
+
+.skill-cont .right .node::before {
+    width: 40%;
+}
+
+.skill-cont .right .exp::before {
+    width: 45%;
+}
+
+.skill-cont .right .mdb::before {
+    width: 30%;
+}
+
+.skill-cont .right .mysql::before {
+    width: 70%;
+}
+
+/* ! Team Section */
+
+.team .title::after {
+    content: "Who With Me";
+    background: var(--color2);
+}
+
+
+
+.team .carousel .card {
+    background: #222;
+    border-radius: 6px;
+    padding: 25px 35px;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin: 20px 0px;
+}
+
+.team .carousel .card:hover {
+    background: var(--background);
+}
+
+.team .carousel .card .box {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: space-around;
+    transition: all 0.3s ease;
+}
+
+.team .carousel .card:hover .box {
+    transform: scale(1.05);
+}
+
+.team .carousel .card .text {
+    font-size: 25px;
+    font-weight: 500;
+    margin: 10px 0 7px 0;
+}
+
+.team .carousel .card img {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--background);
+    transition: all 0.3s ease;
+}
+
+.team .carousel .card:hover img {
+    border-color: var(--font);
+}
+
+.owl-dots {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.owl-dot {
+    height: 13px;
+    width: 13px;
+    margin: 0 5px;
+    outline: none !important;
+    border-radius: 50%;
+    border: 2px solid crimson !important;
+    transition: all 0.3s ease;
+}
+
+.owl-dot.active {
+    width: 35px;
+    border-radius: 14px;
+}
+
+.owl-dot.active,
+.owl-dot:hover {
+    background: var(--background) !important;
+}
+
+/* ! Social Icons */
+
+
+/* ! Content Section*/
+
+.cont .title::after{
+    content: "Get In Touch";
+}
+.cont .cont-cont .column{
+    width: calc(50% - 30px);
+}
+.cont .cont-cont .text{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.cont .cont-cont .left p{
+    text-align: justify;
+}
+.cont .cont-cont .left .icons{
+    margin: 10px 0;
+}
+.cont .cont-cont .row{
+    display: flex;
+    height: 65px;
+    align-items: center;
+}
+.cont .cont-cont .row .info{
+    margin-left: 30px;
+}
+.cont .cont-cont .row i{
+    font-size: 25px;
+    color: var(--background);
+}
+.cont .cont-cont .info .head{
+    font-weight: 500;
+}
+.cont .cont-cont .info .sub-title{
+    color: #333;
+}
+.cont .right form .fields{
+    display: flex;
+}
+.cont .right form .field,
+.cont .right form .fields .field{
+    height: 45px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.cont .right form .textarea{
+    height: 80px;
+    width: 100%;
+}
+.cont .right form .name{
+    margin-right: 10px;
+}
+.cont .right form .field input,
+.cont .right form .textarea textarea{
+    height: 100%;
+    width: 100%;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    outline: none;
+    padding: 0 15px;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+.cont .right form .field input:focus,
+.cont .right form .textarea textarea:focus{
+    border-color: #b3b3b3;
+}
+.cont .right form .textarea textarea{
+  padding-top: 10px;
+  resize: none;
+}
+.cont .right form .button-area{
+  display: flex;
+  align-items: center;
+}
+.right form .button-area button{
+  color: #fff;
+  display: block;
+  width: 160px!important;
+  height: 45px;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  background: var(--background);
+  border: 2px solid var(--background);
+  transition: all 0.3s ease;
+}
+.right form .button-area button:hover{
+  color: var(--background);
+  background: none;
+}
+
+/* ! Footer */
+footer{
+    background: #111;
+    padding: 15px 23px;
+    color: #fff;
+    text-align: center;
+}
+footer span a{
+    color: crimson;
+    text-decoration: none;
+}
+footer span a:hover{
+    text-decoration: underline;
 }
