@@ -39,6 +39,8 @@ const Manager = () => {
             return;
         }
 
+        clearForm();
+
         setpasswordArry([...passwordArry, form])
         localStorage.setItem('passwords', JSON.stringify([...passwordArry, form]))
         console.log([...passwordArry, form])
@@ -47,6 +49,10 @@ const Manager = () => {
         const showMyManager = document.querySelector('.show-mymanager')
         showMyManager.style.display = 'flex'
     }
+
+    const clearForm = () => {
+        setform({ site: '', username: '', password: '', notes: '' });
+    };
 
     const handelChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
@@ -68,7 +74,7 @@ const Manager = () => {
                 <div className="flex flex-col gap-8 py-5 items-center mymanager hidden">
                     <input onChange={handelChange} value={form.site} className='rounded-full border border-cyan-900 p-3 py-1 w-full' type="text" name="site" id="" placeholder='example.com' required />
                     <div className="flex gap-4 w-full justify-between">
-                        <input onChange={handelChange} value={form.username} className='rounded-full w-full border border-cyan-900 p-3 py-1' type="text" name="username" id="" placeholder='username' required />
+                        <input onChange={handelChange} value={form.username} className='rounded-full w-full border border-cyan-900 p-3 py-1' type="text" name="username" id="" placeholder='Email / username' required />
                         <div className="relative w-1/2">
                             <input onChange={handelChange} value={form.password} className='rounded-full w-full border border-cyan-900 p-3 py-1' type="text" name="password" id="" placeholder='password' required />
                             <span className="absolute right-[5px] top-[6px] cursor-pointer" onClick={showPassword}>
@@ -88,12 +94,12 @@ const Manager = () => {
                 <hr />
                 <div>
                     <h2 className='py-5 font-bold text-[larger] italic'>Your Saved <span className='text-cyan-700 underline'>Passwords</span></h2>
-                    {passwordArry.length === 0 && <p className='text-center text-cyan-700'>No Passwords Saved Yet</p>}
+                    {passwordArry.length === 0 && <p className='text-center text-red-700 font-bold italic text-2xl underline'>No Passwords Saved Yet</p>}
                     {passwordArry.length !== 0 && <table className="table-auto w-full text-center border-l-[1px] border-r-[1px] border-cyan-700">
                         <thead className="bg-cyan-800 text-white">
                             <tr>
                                 <th scope="col" className="py-2 border-b-[1px] border-cyan-700">Site</th>
-                                <th scope="col" className="py-2 border-b-[1px] border-cyan-700">UserName</th>
+                                <th scope="col" className="py-2 border-b-[1px] border-cyan-700">Email / UserName</th>
                                 <th scope="col" className="py-2 border-b-[1px] border-cyan-700">Password</th>
                                 <th scope="col" className="py-2 border-b-[1px] border-cyan-700">Notes</th>
                             </tr>
