@@ -8,6 +8,8 @@ const Manager = () => {
     const [form, setform] = useState({ site: '', username: '', password: '', notes: '' })
     const [passwordArry, setpasswordArry] = useState([])
     const [searchQuery, setSearchQuery] = useState('')
+    const [isEditing, setIsEditing] = useState(false)
+    const [editId, setEditId] = useState(null)
     const ref = useRef()
     const refPassword = useRef()
 
@@ -19,7 +21,7 @@ const Manager = () => {
     }, [])
 
     const showPassword = () => {
-        refPassword.current.type = "text"
+        refPassword.current.type = "password"
         if (ref.current.src.includes("icons/show-password.svg")) {
             ref.current.src = "icons/hide-password.svg"
             refPassword.current.type = "password"
@@ -44,26 +46,45 @@ const Manager = () => {
             return;
         }
 
-        clearForm();
+        if (isEditing) {
+            const updatedPasswords = passwordArry.map(item => 
+                item.id === editId ? { ...form, id: editId } : item
+            );
+            setpasswordArry(updatedPasswords);
+            localStorage.setItem('passwords', JSON.stringify(updatedPasswords));
+            setIsEditing(false);
+            setEditId(null);
+            toast.success('Record Updated Successfully');
+        } else {
+            const newRecord = { ...form, id: uuidv4() };
+            setpasswordArry([...passwordArry, newRecord]);
+            localStorage.setItem('passwords', JSON.stringify([...passwordArry, newRecord]));
+            toast.success('Record Added Successfully');
+        }
 
-        setpasswordArry([...passwordArry, { ...form, id: uuidv4() }])
-        localStorage.setItem('passwords', JSON.stringify([...passwordArry, {...form, id: uuidv4()}]))
+        clearForm();
         const myManager = document.querySelector('.mymanager')
         myManager.classList.add('hidden')
         const showMyManager = document.querySelector('.show-mymanager')
         showMyManager.style.display = 'flex'
-        toast.success('Record Added Successfully');
     }
 
     const deleteRecord = (id) => {
-        const removeRecord = passwordArry.filter(item => item.id !== id)
-        setpasswordArry(removeRecord)
-        localStorage.setItem('passwords', JSON.stringify(removeRecord))
+        const removerrecord = passwordArry.filter(item => item.id !== id)
+        setpasswordArry(removerrecord)
+        localStorage.setItem('passwords', JSON.stringify(removerrecord))
         toast.success('Record Deleted Successfully')
     }
 
     const updateRecord = (id) => {
-        
+        const recordToEdit = passwordArry.find(item => item.id === id);
+        setform(recordToEdit);
+        setIsEditing(true);
+        setEditId(id);
+        const myManager = document.querySelector('.mymanager')
+        myManager.classList.remove('hidden')
+        const showMyManager = document.querySelector('.show-mymanager')
+        showMyManager.style.display = 'none'
     }
 
     const clearForm = () => {
@@ -101,7 +122,6 @@ const Manager = () => {
 
     return (
         <>
-
             <ToastContainer
                 position="bottom-right"
                 autoClose={3000}
@@ -111,7 +131,7 @@ const Manager = () => {
                 rtl={false}
                 pauseOnFocusLoss
                 draggable={false}
-                pauseOnHover
+                pauseOnHover    
                 theme="colored"
             />
 
@@ -145,7 +165,7 @@ const Manager = () => {
                             trigger="hover"
                             colors="primary:#cffafe,secondary:#a5f3fc">
                         </lord-icon>
-                        Save
+                        {isEditing ? 'Update' : 'Save'}
                     </button>
                 </div>
                 <hr />
@@ -201,7 +221,7 @@ const Manager = () => {
                                             {item.notes}
                                         </td>
                                         <td className='border-b-[1px]  border-cyan-700'>
-                                            <span  className='mr-4 cursor-pointer' onClick={()=>{updateRecord(item.id)}}>
+                                            <span  className='mr-4 cursor-pointer' onClick={() => updateRecord(item.id)}>
                                                 <lord-icon
                                                     src="https://cdn.lordicon.com/exymduqj.json"
                                                     trigger="hover"
@@ -209,7 +229,7 @@ const Manager = () => {
                                                     className="cursor-pointer w-6 h-6">
                                                 </lord-icon>
                                             </span>
-                                            <span onClick={()=>{deleteRecord(item.id)}} className='cursor-pointer'>
+                                            <span onClick={() => deleteRecord(item.id)} className='cursor-pointer'>
                                                 <lord-icon
                                                     src="https://cdn.lordicon.com/hwjcdycb.json"
                                                     trigger="hover"
