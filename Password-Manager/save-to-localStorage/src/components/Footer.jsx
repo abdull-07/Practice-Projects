@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer className='bg-cyan-100 absolute bottom-1 w-full overflow-x-hidden'>
+        <footer className='bg-cyan-100 absolute bottom w-full overflow-x-hidden'>
             <div className="mycontainer flex text-black justify-between items-center font-bold italic py-2 max-w-4xl">
                 <div>
                     <h1>Key<span className='text-cyan-700'>Vault</span></h1>

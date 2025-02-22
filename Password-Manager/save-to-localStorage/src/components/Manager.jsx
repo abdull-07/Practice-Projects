@@ -2,12 +2,12 @@ import React from 'react'
 import { useRef, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Manager = () => {
-
     const [form, setform] = useState({ site: '', username: '', password: '', notes: '' })
     const [passwordArry, setpasswordArry] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
     const ref = useRef()
     const refPassword = useRef()
 
@@ -16,11 +16,10 @@ const Manager = () => {
         if (data) {
             setpasswordArry(JSON.parse(data))
         }
-
     }, [])
 
-
     const showPassword = () => {
+        refPassword.current.type = "text"
         if (ref.current.src.includes("icons/show-password.svg")) {
             ref.current.src = "icons/hide-password.svg"
             refPassword.current.type = "password"
@@ -29,7 +28,6 @@ const Manager = () => {
             refPassword.current.type = "text"
         }
     }
-
 
     const showMyManager = () => {
         const myManager = document.querySelector('.mymanager')
@@ -42,20 +40,30 @@ const Manager = () => {
         const { site, username, password, notes } = form;
 
         if (!site || !username || !password || !notes) {
-            toast.info("All fields are required. Please fill in all the details.");
+            alert("All fields are required. Please fill in all the details.");
             return;
         }
 
         clearForm();
 
-        setpasswordArry([...passwordArry, form])
-        localStorage.setItem('passwords', JSON.stringify([...passwordArry, form]))
-        console.log([...passwordArry, form])
+        setpasswordArry([...passwordArry, { ...form, id: uuidv4() }])
+        localStorage.setItem('passwords', JSON.stringify([...passwordArry, {...form, id: uuidv4()}]))
         const myManager = document.querySelector('.mymanager')
         myManager.classList.add('hidden')
         const showMyManager = document.querySelector('.show-mymanager')
         showMyManager.style.display = 'flex'
         toast.success('Record Added Successfully');
+    }
+
+    const deleteRecord = (id) => {
+        const removeRecord = passwordArry.filter(item => item.id !== id)
+        setpasswordArry(removeRecord)
+        localStorage.setItem('passwords', JSON.stringify(removeRecord))
+        toast.success('Record Deleted Successfully')
+    }
+
+    const updateRecord = (id) => {
+        
     }
 
     const clearForm = () => {
@@ -66,9 +74,13 @@ const Manager = () => {
         setform({ ...form, [e.target.name]: e.target.value })
     }
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value)
+    }
+
     const copyText = async (text) => {
         if (!text) {
-            toast.info("Nothing to copy. Value is empty or undefined.");
+            alert("Nothing to copy. Value is empty or undefined.");
             return;
         }
 
@@ -77,9 +89,15 @@ const Manager = () => {
             toast.success('Text Copied Successfully');
         } catch (error) {
             console.error("Failed to copy text: ", error);
-            toast.error("Failed to copy. Please try again.");
+            alert("Failed to copy. Please try again.");
         }
     };
+
+    const filteredPasswords = passwordArry.filter(item =>
+        item.site.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.notes.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <>
@@ -93,10 +111,9 @@ const Manager = () => {
                 rtl={false}
                 pauseOnFocusLoss
                 draggable={false}
-                pauseOnHover    
+                pauseOnHover
                 theme="colored"
             />
-
 
             <div className="absolute top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div>
 
@@ -127,35 +144,37 @@ const Manager = () => {
                             src="https://cdn.lordicon.com/tsrgicte.json"
                             trigger="hover"
                             colors="primary:#cffafe,secondary:#a5f3fc">
-                        </lord-icon>Add
+                        </lord-icon>
+                        Save
                     </button>
                 </div>
                 <hr />
                 <div>
-                    <h2 className='py-5 font-bold text-[larger] italic'>Your Saved <span className='text-cyan-700 underline'>Passwords</span></h2>
-                    {passwordArry.length === 0 && <p className='text-center text-red-700 font-bold italic text-2xl underline'>No Passwords Saved Yet</p>}
-                    {passwordArry.length !== 0 && (
-                        <table className="table-fixed w-full text-center border-l-[1px] border-r-[1px] border-cyan-700">
+                    <div className='flex py-5'><h2 className='font-bold text-[larger] italic w-1/3'>Your Saved <span className='text-cyan-700 underline'>Passwords</span></h2>
+                        {filteredPasswords.length !== 0 && <input
+                            type="text" placeholder="Search..." value={searchQuery} onChange={handleSearchChange} className="rounded-full border border-cyan-900 p-3 py-1 w-full"
+                        />}</div>
+                    {filteredPasswords.length === 0 && <p className='text-center text-red-700 font-bold italic text-2xl underline'>No Passwords Found</p>}
+                    {filteredPasswords.length !== 0 && (
+                        <table className="table-auto w-full text-center border-l-[1px] border-r-[1px] border-cyan-700">
                             <thead className="bg-cyan-800 text-white">
                                 <tr>
                                     <th scope="col" className="py-2 px-4 border-b-[1px] border-cyan-700">Site</th>
                                     <th scope="col" className="py-2 px-4 border-b-[1px] border-cyan-700">Email / UserName</th>
                                     <th scope="col" className="py-2 px-4 border-b-[1px] border-cyan-700">Password</th>
                                     <th scope="col" className="py-2 px-4 border-b-[1px] border-cyan-700">Notes</th>
+                                    <th scope="col" className="py-2 px-4 border-b-[1px] border-cyan-700 border-collapse">Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody className="bg-cyan-100">
-                                {passwordArry.map((item, index) => (
+                                {filteredPasswords.map((item, index) => (
                                     <tr key={index}>
-                                        {/* Site Column */}
                                         <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                             <a href={item.site} target="_blank" rel="noopener noreferrer" className="text-cyan-700 underline">
                                                 {item.site}
                                             </a>
                                         </td>
-
-
                                         <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                             <div className="inline-flex items-center gap-2" onClick={() => copyText(item.username)}>
                                                 {item.username}
@@ -167,8 +186,6 @@ const Manager = () => {
                                                 ></lord-icon>
                                             </div>
                                         </td>
-
-
                                         <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                             <div className="inline-flex items-center gap-2" onClick={() => copyText(item.password)}>
                                                 {item.password}
@@ -180,22 +197,35 @@ const Manager = () => {
                                                 ></lord-icon>
                                             </div>
                                         </td>
-
-                                        {/* Notes Column */}
                                         <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                             {item.notes}
                                         </td>
+                                        <td className='border-b-[1px]  border-cyan-700'>
+                                            <span  className='mr-4 cursor-pointer' onClick={()=>{updateRecord(item.id)}}>
+                                                <lord-icon
+                                                    src="https://cdn.lordicon.com/exymduqj.json"
+                                                    trigger="hover"
+                                                    colors="primary:#0e7490,secondary:#164e63"
+                                                    className="cursor-pointer w-6 h-6">
+                                                </lord-icon>
+                                            </span>
+                                            <span onClick={()=>{deleteRecord(item.id)}} className='cursor-pointer'>
+                                                <lord-icon
+                                                    src="https://cdn.lordicon.com/hwjcdycb.json"
+                                                    trigger="hover"
+                                                    colors="primary:#0e7490,secondary:#164e63"
+                                                    className="cursor-pointer w-6 h-6">
+                                                </lord-icon>
+                                            </span>
+                                        </td>
+
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     )}
-
-
                 </div>
-
             </div>
-
         </>
     )
 }
