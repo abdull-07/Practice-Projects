@@ -166,7 +166,7 @@ const Manager = () => {
                             colors="primary:#cffafe,secondary:#a5f3fc">
                         </lord-icon>
                         {isEditing ? 'Update' : 'Save'}
-                    </button
+                    </button>
                 </div>
                 <hr />
                 <div>
