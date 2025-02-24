@@ -35,6 +35,8 @@ const Manager = () => {
         }
     }
 
+
+
     const showMyManager = () => {
         const myManager = document.querySelector('.mymanager')
         myManager.classList.remove('hidden')
@@ -239,14 +241,14 @@ const Manager = () => {
                                             </td>
                                             <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300 flex">
                                                 <div className="inline-flex items-center gap-2" onClick={() => copyText(item.password)}>
-                                                    <span>{item.password}</span>
+                                                    <span className='tablepass'>{item.password}</span>
                                                     <lord-icon
                                                         src="https://cdn.lordicon.com/iykgtsbt.json"
                                                         trigger="hover"
                                                         colors="primary:#0891b2,secondary:#cffafe"
                                                         className="w-5 h-5 cursor-pointer"></lord-icon>
                                                 </div>
-                                                <span className="right-[5px] top-[6px] cursor-pointer" onClick={showPassword}><img ref={ref} src="icons/hide-password.svg" alt="show-password" /></span>
+                                                {/* {<span className="right-[5px] top-[6px] cursor-pointer " onClick={showTablePassword} ref={refTablePassword}><img ref={ref} src="icons/hide-password.svg" alt="show-password" /></span>} */}
                                             </td>
                                             <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                                 {item.notes}
