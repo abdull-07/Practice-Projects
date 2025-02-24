@@ -13,11 +13,14 @@ const Manager = () => {
     const ref = useRef()
     const refPassword = useRef()
 
+    const getPasswords = async () => {
+        let req = fetch('http://localhost:3000')
+        let data = await req.JSON()
+        console.log(data)
+        setpasswordArry(data)
+    }
     useEffect(() => {
-        let data = localStorage.getItem('passwords')
-        if (data) {
-            setpasswordArry(JSON.parse(data))
-        }
+        getPasswords()
     }, [])
 
     const showPassword = () => {
@@ -46,7 +49,7 @@ const Manager = () => {
         }
 
         if (isEditing) {
-            const updatedPasswords = passwordArry.map(item => 
+            const updatedPasswords = passwordArry.map(item =>
                 item.id === editId ? { ...form, id: editId } : item
             );
             setpasswordArry(updatedPasswords);
@@ -130,7 +133,7 @@ const Manager = () => {
                 rtl={false}
                 pauseOnFocusLoss
                 draggable={false}
-                pauseOnHover    
+                pauseOnHover
                 theme="colored"
             />
 
@@ -223,7 +226,7 @@ const Manager = () => {
                                                 {item.notes}
                                             </td>
                                             <td className='border-b-[1px]  border-cyan-700'>
-                                                <span  className='mr-4 cursor-pointer' onClick={() => updateRecord(item.id)}>
+                                                <span className='mr-4 cursor-pointer' onClick={() => updateRecord(item.id)}>
                                                     <lord-icon
                                                         src="https://cdn.lordicon.com/exymduqj.json"
                                                         trigger="hover"
