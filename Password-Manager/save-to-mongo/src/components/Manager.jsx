@@ -19,12 +19,13 @@ const Manager = () => {
         console.log(data);
         setpasswordArry(data);
     }
-    
+
     useEffect(() => {
         getPasswords()
     }, [])
 
     const showPassword = () => {
+        refPassword.current.type = "password"
         if (ref.current.src.includes("icons/show-password.svg")) {
             ref.current.src = "icons/hide-password.svg"
             refPassword.current.type = "password"
@@ -41,7 +42,7 @@ const Manager = () => {
         showMyManager.style.display = 'none'
     }
 
-    const addRecord = () => {
+    const addRecord = async () => {
         const { site, username, password, notes } = form;
 
         if (!site || !username || !password || !notes) {
@@ -49,20 +50,43 @@ const Manager = () => {
             return;
         }
 
-        if (isEditing) {
-            const updatedPasswords = passwordArry.map(item =>
-                item.id === editId ? { ...form, id: editId } : item
-            );
-            setpasswordArry(updatedPasswords);
-            localStorage.setItem('passwords', JSON.stringify(updatedPasswords));
+        if (isEditing && editId) {
+            const update = { id: editId, site, username, password, notes }
+            try {
+                const res = await fetch('http://localhost:3000', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(update) })
+                if (res.ok) {
+                    const updatedPasswords = passwordArry.map(item =>
+                        item.id === editId ? { ...form, id: editId } : item
+                    );
+                    setpasswordArry(updatedPasswords);
+                    toast.success('Record Updated Successfully');
+                } else {
+                    toast.error('Failed to update record');
+                }
+            } catch (error) {
+                console.error('Error updating record:', error)
+                toast.error('An error occurred. Please try again')
+            }
+
+            // localStorage.setItem('passwords', JSON.stringify(updatedPasswords));
             setIsEditing(false);
             setEditId(null);
-            toast.success('Record Updated Successfully');
         } else {
             const newRecord = { ...form, id: uuidv4() };
             setpasswordArry([...passwordArry, newRecord]);
-            localStorage.setItem('passwords', JSON.stringify([...passwordArry, newRecord]));
-            toast.success('Record Added Successfully');
+            // localStorage.setItem('passwords', JSON.stringify([...passwordArry, newRecord]));
+            try {
+                const res = await fetch('http://localhost:3000', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newRecord) })
+                if (res.ok) {
+                    setpasswordArry([...passwordArry, newRecord]);
+                    toast.success('Record Added Successfully');
+                } else {
+                    toast.error('Failed to add record');
+                }
+            } catch (error) {
+                console.error('Error adding record:', error);
+                toast.error('An error occurred.');
+            }
         }
 
         clearForm();
@@ -72,10 +96,11 @@ const Manager = () => {
         showMyManager.style.display = 'flex'
     }
 
-    const deleteRecord = (id) => {
+    const deleteRecord = async (id) => {
         const removerrecord = passwordArry.filter(item => item.id !== id)
         setpasswordArry(removerrecord)
-        localStorage.setItem('passwords', JSON.stringify(removerrecord))
+        // localStorage.setItem('passwords', JSON.stringify(removerrecord))
+        const res = await fetch('http://localhost:3000', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }), });
         toast.success('Record Deleted Successfully')
     }
 
@@ -212,16 +237,16 @@ const Manager = () => {
                                                     ></lord-icon>
                                                 </div>
                                             </td>
-                                            <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
+                                            <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300 flex">
                                                 <div className="inline-flex items-center gap-2" onClick={() => copyText(item.password)}>
-                                                    {item.password}
+                                                    <span>{item.password}</span>
                                                     <lord-icon
                                                         src="https://cdn.lordicon.com/iykgtsbt.json"
                                                         trigger="hover"
                                                         colors="primary:#0891b2,secondary:#cffafe"
-                                                        className="w-5 h-5 cursor-pointer"
-                                                    ></lord-icon>
+                                                        className="w-5 h-5 cursor-pointer"></lord-icon>
                                                 </div>
+                                                <span className="right-[5px] top-[6px] cursor-pointer" onClick={showPassword}><img ref={ref} src="icons/hide-password.svg" alt="show-password" /></span>
                                             </td>
                                             <td className="py-2 px-4 border-b-[1px] border-r-[1px] border-cyan-700 hover:bg-cyan-300">
                                                 {item.notes}
