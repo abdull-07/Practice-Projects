@@ -14,11 +14,12 @@ const Manager = () => {
     const refPassword = useRef()
 
     const getPasswords = async () => {
-        let req = fetch('http://localhost:3000')
-        let data = await req.JSON()
-        console.log(data)
-        setpasswordArry(data)
+        let req = await fetch('http://localhost:3000');
+        let data = await req.json(); // Correct method to parse JSON
+        console.log(data);
+        setpasswordArry(data);
     }
+    
     useEffect(() => {
         getPasswords()
     }, [])
